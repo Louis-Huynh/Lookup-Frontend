@@ -5,12 +5,24 @@ const Button = (props) => {
   return <button onClick={props.vote}>{props.text}</button>;
 };
 
-const Display = (props) => {
-  if (props.total === 0) return <p>Let's start clicking!</p>;
+const Statistics = ({
+  theGood,
+  theNeutral,
+  theBad,
+  theTotal,
+  theAverage,
+  theGoodPercent,
+}) => {
+  if (theTotal === 0) return <p>Let's start clicking!</p>;
   return (
-    <p>
-      {props.type}:{props.value}
-    </p>
+    <div>
+      <p>Good {theGood}</p>
+      <p>Neutral {theNeutral}</p>
+      <p>Bad {theBad}</p>
+      <p>Total {theTotal}</p>
+      <p>Average {theAverage}</p>
+      <p>positive {theGoodPercent}</p>
+    </div>
   );
 };
 
@@ -26,8 +38,6 @@ const App = () => {
       good: stats.good + 1,
     });
     calcTotal();
-    // calcAverage();
-    // calcGoodPercent();
   };
 
   const voteNeutral = () => {
@@ -36,8 +46,6 @@ const App = () => {
       neutral: stats.neutral + 1,
     });
     calcTotal();
-    // calcAverage();
-    // calcGoodPercent();
   };
 
   const voteBad = () => {
@@ -46,22 +54,20 @@ const App = () => {
       bad: stats.bad + 1,
     });
     calcTotal();
-    // calcAverage();
-    // calcGoodPercent();
   };
 
-  const calcAverage = () => {
-    let temp = 0.0;
-    for (let i in stats) {
-      if (i === "good") temp += stats[i];
-      else if (i === "bad") temp -= stats[i];
-    }
-    changeAvg(temp / total);
-  };
+  // const calcAverage = () => {
+  //   let temp = 0.0;
+  //   for (let i in stats) {
+  //     if (i === "good") temp += stats[i];
+  //     else if (i === "bad") temp -= stats[i];
+  //   }
+  //   changeAvg(temp / total);
+  // };
 
-  const calcGoodPercent = () => {
-    changeGoodPercent(stats.good / total);
-  };
+  // const calcGoodPercent = () => {
+  //   changeGoodPercent(stats.good / total);
+  // };
 
   const calcTotal = () => changeTotal(total + 1);
 
@@ -73,21 +79,13 @@ const App = () => {
       <Button vote={voteBad} text="Bad" />
 
       <h2>Statistics</h2>
-      <Display total={total} type="Good" value={stats.good} />
-      <Display total={total} type="Neutral" value={stats.neutral} />
-      <Display total={total} type="Bad" value={stats.bad} />
-      <Display total={total} type="Total" value={total} />
-      {/* <Display total={total} type="Average" value={avg} />
-      <Display total={total} type="Good Percent" value={goodPecent} /> */}
-      <Display
-        total={total}
-        type="Average"
-        value={(stats.good - stats.bad) / total}
-      />
-      <Display
-        total={total}
-        type="Good Percent"
-        value={(stats.good / total) * 100}
+      <Statistics
+        theGood={stats.good}
+        theBad={stats.bad}
+        theNeutral={stats.neutral}
+        theTotal={total}
+        theAverage={(stats.good - stats.bad) / total}
+        theGoodPercent={(stats.good / total) * 100}
       />
     </div>
   );
