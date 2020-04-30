@@ -84,7 +84,11 @@ const App = () => {
         type="Average"
         value={(stats.good - stats.bad) / total}
       />
-      <Display total={total} type="Good Percent" value={stats.good / total} />
+      <Display
+        total={total}
+        type="Good Percent"
+        value={(stats.good / total) * 100}
+      />
     </div>
   );
 };
