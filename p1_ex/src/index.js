@@ -1,63 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const Header = (props) => {
-  return <h1>{props.course["name"]}</h1>;
+const Button = (props) => {
+  return <button onClick={props.vote}>{props.text}</button>;
 };
 
-const Content = (props) => {
-  console.log(props.course.parts);
-  return (
-    <div>
-      <p>
-        {props.course["parts"][0].name} {props.course["parts"][0].exercises}
-      </p>
-      <p>
-        {props.course["parts"][1].name} {props.course["parts"][1].exercises}
-      </p>
-      <p>
-        {props.course["parts"][2].name} {props.course["parts"][2].exercises}
-      </p>
-    </div>
-  );
-};
-
-const Total = (props) => {
+const Display = (props) => {
   return (
     <p>
-      Number of exercises{" "}
-      {props.course.parts[0].exercises +
-        props.course.parts[1].exercises +
-        props.course.parts[2].exercises}
+      {props.type}:{props.value}
     </p>
   );
 };
 
 const App = () => {
-  const course = {
-    name: "Half Stack application development",
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10,
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7,
-      },
-      {
-        name: "State of a component",
-        exercises: 14,
-      },
-    ],
+  const [stats, changeStats] = useState({ good: 0, neutral: 0, bad: 0 });
+
+  const voteGood = () => {
+    changeStats({
+      ...stats,
+      good: stats.good + 1,
+    });
   };
+
+  const voteNeutral = () => {
+    changeStats({
+      ...stats,
+      neutral: stats.neutral + 1,
+    });
+  };
+
+  const voteBad = () => {
+    changeStats({
+      ...stats,
+      bad: stats.bad + 1,
+    });
+  };
+
   return (
     <div>
-      <Header course={course} />
+      <h2>Give Feedback</h2>
+      <Button vote={voteGood} text="Good" />
+      <Button vote={voteNeutral} text="Neutral" />
+      <Button vote={voteBad} text="Bad" />
 
-      <Content course={course} />
-
-      <Total course={course} />
+      <h2>Statistics</h2>
+      <Display type="Good" value={stats.good} />
+      <Display type="Neutral" value={stats.neutral} />
+      <Display type="Bad" value={stats.bad} />
     </div>
   );
 };
