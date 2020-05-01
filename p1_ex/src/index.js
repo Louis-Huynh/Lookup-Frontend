@@ -7,13 +7,24 @@ const Button = (props) => {
 
 const Statistics = (props) => {
   if (props.total === 0) {
-    if (props.text === "Good") return <p>Vote Now</p>;
-    else return <p></p>;
+    if (props.text === "Good")
+      return (
+        <tr>
+          <td>Vote Now</td>
+        </tr>
+      );
+    else
+      return (
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      );
   }
   return (
-    <p>
-      {props.text} {props.value}
-    </p>
+    <tr>
+      <td>{props.text}</td>
+      <td> {props.value}</td>
+    </tr>
   );
 };
 
@@ -55,22 +66,30 @@ const App = () => {
       <Button vote={voteNeutral} text="Neutral" />
       <Button vote={voteBad} text="Bad" />
 
-      <h2>Statistics</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th colSpan={3}>
+              <h2>Statistics</h2>
+            </th>
+          </tr>
 
-      <Statistics total={total} text="Good" value={stats.good} />
-      <Statistics total={total} text="Netural" value={stats.neutral} />
-      <Statistics total={total} text="Bad" value={stats.bad} />
-      <Statistics total={total} text="Total" value={total} />
-      <Statistics
-        total={total}
-        text="Average "
-        value={(stats.good - stats.bad) / 100}
-      />
-      <Statistics
-        total={total}
-        text="Positive "
-        value={(stats.good / total) * 100}
-      />
+          <Statistics total={total} text="Good" value={stats.good} />
+          <Statistics total={total} text="Netural" value={stats.neutral} />
+          <Statistics total={total} text="Bad" value={stats.bad} />
+          <Statistics total={total} text="Total" value={total} />
+          <Statistics
+            total={total}
+            text="Average "
+            value={(stats.good - stats.bad) / 100}
+          />
+          <Statistics
+            total={total}
+            text="Positive "
+            value={(stats.good / total) * 100}
+          />
+        </tbody>
+      </table>
     </div>
   );
 };
