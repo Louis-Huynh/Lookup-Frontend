@@ -33,8 +33,12 @@ const Anecdote = ({ selected, quote }) => {
 };
 
 const Vote = ({ noVotes }) => {
-  console.log("noVotes", noVotes);
-  return <p>has {noVotes}</p>;
+  console.log("novotes", noVotes);
+  return noVotes === undefined ? <p>no votes yet</p> : <p>has {noVotes}</p>;
+};
+
+const Favorite = ({ favorite }) => {
+  return favorite === undefined ? <p></p> : <p>{favorite}</p>;
 };
 
 const App = () => {
@@ -82,6 +86,7 @@ const App = () => {
     Array.apply(null, Array(anecdotes.length)).map(Number.prototype.valueOf, 0)
   );
   console.log("vote distribution", vote);
+  const [favorite, setFavorite] = useState(-1);
 
   const rando = () => {
     const min = Math.ceil(0);
@@ -94,13 +99,25 @@ const App = () => {
     }
     setSelected(cheeto);
   };
-  console.log("selected", selected);
+  // console.log("selected", selected);
 
   const voteNow = () => {
     if (selected >= 0) {
       const temp = [...vote];
       temp[selected]++;
       addVote(temp);
+    }
+    mostVoted();
+  };
+
+  const mostVoted = () => {
+    let temp = Math.max(...vote);
+    console.log("temp: ", temp);
+    for (let i = 0; i < vote.length; i++) {
+      if (temp === vote[i]) {
+        console.log("i is the biggest index: ", i);
+        setFavorite(i);
+      }
     }
   };
 
@@ -110,6 +127,9 @@ const App = () => {
       <Vote noVotes={vote[selected]} />
       <Button vote={voteNow} text="Vote it" />
       <Button vote={rando} text="Random Dancing" />
+      {/* <Button vote={mostVoted} text="chimy" /> */}
+
+      <Favorite favorite={anecdotes[favorite]} />
 
       <br />
       <br />
