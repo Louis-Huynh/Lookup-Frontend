@@ -28,6 +28,10 @@ const Statistics = (props) => {
   );
 };
 
+const Anecdote = ({ selected, quote }) => {
+  return selected < 0 ? <p>Quote me</p> : <p>{quote}</p>;
+};
+
 const App = () => {
   const [stats, changeStats] = useState({ good: 0, neutral: 0, bad: 0 });
   const [total, changeTotal] = useState(0);
@@ -57,10 +61,40 @@ const App = () => {
   };
 
   const calcTotal = () => changeTotal(total + 1);
-  console.log("total", total);
+
+  //------------Anecdote--------------
+  const [selected, setSelected] = useState(-1);
+
+  const anecdotes = [
+    "If it hurts, do it more often",
+    "Adding manpower to a late software project makes it later!",
+    "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+    "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    "Premature optimization is the root of all evil.",
+    "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+  ];
+
+  const rando = () => {
+    const min = Math.ceil(0);
+    const max = Math.floor(anecdotes.length);
+    let cheeto = Math.floor(Math.random() * (max - min) + min);
+
+    while (cheeto === selected) {
+      cheeto = Math.floor(Math.random() * (max - min) + min);
+      console.log("retrying");
+    }
+    setSelected(cheeto);
+  };
+  console.log("selected", selected);
 
   return (
     <div>
+      <Anecdote quote={anecdotes[selected]} selected={selected} />
+      <Button vote={rando} text="Random Dancing" />
+
+      <br />
+      <br />
+      <br />
       <h2>Give Feedback</h2>
       <Button vote={voteGood} text="Good" />
       <Button vote={voteNeutral} text="Neutral" />
