@@ -32,6 +32,11 @@ const Anecdote = ({ selected, quote }) => {
   return selected < 0 ? <p>Quote me</p> : <p>{quote}</p>;
 };
 
+const Vote = ({ noVotes }) => {
+  console.log("noVotes", noVotes);
+  return <p>has {noVotes}</p>;
+};
+
 const App = () => {
   const [stats, changeStats] = useState({ good: 0, neutral: 0, bad: 0 });
   const [total, changeTotal] = useState(0);
@@ -63,8 +68,6 @@ const App = () => {
   const calcTotal = () => changeTotal(total + 1);
 
   //------------Anecdote--------------
-  const [selected, setSelected] = useState(-1);
-
   const anecdotes = [
     "If it hurts, do it more often",
     "Adding manpower to a late software project makes it later!",
@@ -73,6 +76,12 @@ const App = () => {
     "Premature optimization is the root of all evil.",
     "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
   ];
+
+  const [selected, setSelected] = useState(-1);
+  const [vote, addVote] = useState(
+    Array.apply(null, Array(anecdotes.length)).map(Number.prototype.valueOf, 0)
+  );
+  console.log("vote distribution", vote);
 
   const rando = () => {
     const min = Math.ceil(0);
@@ -87,9 +96,19 @@ const App = () => {
   };
   console.log("selected", selected);
 
+  const voteNow = () => {
+    if (selected >= 0) {
+      const temp = [...vote];
+      temp[selected]++;
+      addVote(temp);
+    }
+  };
+
   return (
     <div>
       <Anecdote quote={anecdotes[selected]} selected={selected} />
+      <Vote noVotes={vote[selected]} />
+      <Button vote={voteNow} text="Vote it" />
       <Button vote={rando} text="Random Dancing" />
 
       <br />
