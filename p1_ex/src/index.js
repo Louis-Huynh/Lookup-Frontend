@@ -33,12 +33,15 @@ const Anecdote = ({ selected, quote }) => {
 };
 
 const Vote = ({ noVotes }) => {
-  console.log("novotes", noVotes);
-  return noVotes === undefined ? <p>no votes yet</p> : <p>has {noVotes}</p>;
+  return noVotes === undefined ? (
+    <p>Start browsing quotes</p>
+  ) : (
+    <p>has {noVotes} </p>
+  );
 };
 
-const Favorite = ({ favorite }) => {
-  return favorite === undefined ? <p></p> : <p>{favorite}</p>;
+const Favorite = ({ favorite, maxVoted }) => {
+  return maxVoted < 1 ? <p>No favorites, vote now!</p> : <p>{favorite}</p>;
 };
 
 const App = () => {
@@ -86,7 +89,6 @@ const App = () => {
     Array.apply(null, Array(anecdotes.length)).map(Number.prototype.valueOf, 0)
   );
   console.log("vote distribution", vote);
-  const [favorite, setFavorite] = useState(-1);
 
   const rando = () => {
     const min = Math.ceil(0);
@@ -99,7 +101,6 @@ const App = () => {
     }
     setSelected(cheeto);
   };
-  // console.log("selected", selected);
 
   const voteNow = () => {
     if (selected >= 0) {
@@ -107,29 +108,19 @@ const App = () => {
       temp[selected]++;
       addVote(temp);
     }
-    mostVoted();
   };
 
-  const mostVoted = () => {
-    let temp = Math.max(...vote);
-    console.log("temp: ", temp);
-    for (let i = 0; i < vote.length; i++) {
-      if (temp === vote[i]) {
-        console.log("i is the biggest index: ", i);
-        setFavorite(i);
-      }
-    }
-  };
+  const maxVoted = Math.max(...vote);
+  console.log("max voted", maxVoted);
+  const popQuote = anecdotes[vote.indexOf(maxVoted)];
 
   return (
     <div>
       <Anecdote quote={anecdotes[selected]} selected={selected} />
       <Vote noVotes={vote[selected]} />
-      <Button vote={voteNow} text="Vote it" />
-      <Button vote={rando} text="Random Dancing" />
-      {/* <Button vote={mostVoted} text="chimy" /> */}
-
-      <Favorite favorite={anecdotes[favorite]} />
+      <Favorite favorite={popQuote} maxVoted={maxVoted} />
+      <Button vote={voteNow} text="Like" />
+      <Button vote={rando} text="Random Quote" />
 
       <br />
       <br />
