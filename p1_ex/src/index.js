@@ -114,6 +114,47 @@ const App = () => {
   console.log("max voted", maxVoted);
   const popQuote = anecdotes[vote.indexOf(maxVoted)];
 
+  const animals = [
+    { name: "cheeto", type: "cheeta" },
+    { name: "crimson", type: "iguana" },
+    { name: "pond", type: "koi" },
+    { name: "mister", type: "iguana" },
+  ];
+
+  let yup = [];
+  // const typeo = animals.map((animals) => {
+  //   yup = yup.concat(animals.name);
+  // });
+
+  // for (const animal of yup) {
+  //   console.log("hanimal", animal);
+  // }
+
+  const amount = [
+    { amount: 300 },
+    { amount: 230 },
+    { amount: 3232 },
+    { amount: 32143 },
+  ];
+
+  const mankey = amount.reduce(
+    (sum, iterable) => sum + iterable.amount,
+    -30000
+  );
+  console.log("total", mankey);
+
+  const typeo = animals.map((animals) => {
+    return animals.name + " is a " + animals.type;
+  });
+  console.log("hy", typeo);
+
+  const iguanas = animals.filter((animals) => {
+    return animals.type === "iguana";
+  });
+
+  // const printEm = iguanas.map((iguanas) => {
+  //   console.log("their names: ", iguanas.name);
+  // });
   return (
     <div>
       <Anecdote quote={anecdotes[selected]} selected={selected} />
