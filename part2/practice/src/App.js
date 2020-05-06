@@ -39,11 +39,12 @@ const App = () => {
 
   // console.log("reducer:", reducer);
 
-  console.log("op: ", quickSlow);
-
+  const cheeto = notes.map((x) => {
+    return <Notes key={x.id} note={x} />;
+  });
   return (
     <div>
-      <Notes notes={notes} />
+      <ul>{cheeto}</ul>
     </div>
   );
 };
