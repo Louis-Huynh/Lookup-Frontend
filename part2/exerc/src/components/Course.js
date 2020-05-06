@@ -1,8 +1,17 @@
 import React from "react";
 
-const Course = ({ course }) => {
-  console.log("hi", course.parts);
+const CourseNames = ({ course }) => {
+  return <h1>{course.name}</h1>;
+};
 
+const PartsAndExercises = ({ printIt }) => {
+  return <div>{printIt}</div>;
+};
+
+const SumExerc = ({ sumIt }) => {
+  return <b>Sum: {sumIt}</b>;
+};
+const Course = ({ course }) => {
   const printIt = course.parts.map((course) => {
     return (
       <p key={course.id}>
@@ -12,16 +21,14 @@ const Course = ({ course }) => {
   });
 
   const sumIt = course.parts.reduce((acc, curr) => {
-    console.log("happening", acc);
-
     return acc + curr.exercises;
   }, 0);
 
   return (
     <div>
-      <h1>{course.name}</h1>
-      <div>{printIt}</div>
-      <b>Sum: {sumIt}</b>
+      <CourseNames course={course} />
+      <PartsAndExercises printIt={printIt} />
+      <SumExerc sumIt={sumIt} />
     </div>
   );
 };

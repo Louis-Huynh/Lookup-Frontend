@@ -46,11 +46,10 @@ const App = () => {
       ],
     },
   ];
-
   return (
     <div>
       {course.map((courses, i) => {
-        return <Course course={courses} key={i} />;
+        return <Course course={courses} key={courses.id} />;
       })}
     </div>
   );
