@@ -12,6 +12,8 @@ const Course = ({ course }) => {
   });
 
   const sumIt = course.parts.reduce((acc, curr) => {
+    console.log("happening", acc);
+
     return acc + curr.exercises;
   }, 0);
 
