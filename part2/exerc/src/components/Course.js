@@ -11,10 +11,15 @@ const Course = ({ course }) => {
     );
   });
 
+  const sumIt = course.parts.reduce((acc, curr) => {
+    return acc + curr.exercises;
+  }, 0);
+
   return (
     <div>
       <h1>{course.name}</h1>
       <div>{printIt}</div>
+      <b>Sum: {sumIt}</b>
     </div>
   );
 };
