@@ -1,84 +1,70 @@
 import React, { useState } from "react";
-import Course from "./components/Course";
+import Note from "./components/Note";
 
 const App = () => {
-  const course = [
+  const notes = [
     {
       id: 1,
-      name: "Half Stack application development",
-      parts: [
-        {
-          name: "Fundamentals of React",
-          exercises: 10,
-          id: 1,
-        },
-        {
-          name: "Using props to pass data",
-          exercises: 7,
-          id: 2,
-        },
-        {
-          name: "State of a component",
-          exercises: 14,
-          id: 3,
-        },
-        {
-          name: "The art of war",
-          exercises: 87,
-          id: 4,
-        },
-      ],
+      content: "HTML is easy",
+      date: "2020-01-10T17:30:31.098Z",
+      important: true,
     },
     {
       id: 2,
-      name: "Node.js",
-      parts: [
-        {
-          name: "Routing",
-          exercises: 3,
-          id: 1,
-        },
-        {
-          name: "Middlewares",
-          exercises: 7,
-          id: 2,
-        },
-      ],
+      content: "Browser can execute only Javascript",
+      date: "2020-01-10T18:39:34.091Z",
+      important: false,
+    },
+    {
+      id: 3,
+      content: "GET and POST are the most important methods of HTTP protocol",
+      date: "2020-01-10T19:20:14.298Z",
+      important: true,
     },
   ];
 
-  const [cheeto, setCheeto] = useState([...course]);
+  const [cheeto, setCheeto] = useState([...notes]);
   const [text, setText] = useState("type it up");
-  const [title, setTitle] = useState("title");
+  const [showAll, setShowAll] = useState(false);
 
   const addNote = (event) => {
     event.preventDefault();
-    // console.log("button clicked", event.target);
-
     const noteObj = {
-      id: course.length + 1,
       content: text,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
+      id: cheeto.length + 1,
     };
     setCheeto(cheeto.concat(noteObj));
     setText("");
   };
 
   const handleNoteChange = (event) => {
+    console.log(event.target.value);
     setText(event.target.value);
   };
-  console.log("the mailman", cheeto);
+
+  const notesToShow = showAll
+    ? cheeto
+    : cheeto.filter((aCheeto) => {
+        return aCheeto.important;
+      });
 
   return (
     <div>
-      {/* {cheeto.map((courses, i) => {
-        return <Course course={courses} key={courses.id} />;
-      })} */}
       <form onSubmit={addNote}>
         <input value={text} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
+
+      <button onClick={() => setShowAll(!showAll)}>
+        show {showAll ? "Important" : "All"}
+      </button>
+      <ul>
+        {notesToShow.map((cheet, i) => {
+          return <Note anObj={cheet} key={i} />;
+        })}
+      </ul>
     </div>
   );
 };
