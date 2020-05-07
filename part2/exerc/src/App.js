@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Course from "./components/Course";
 
 const App = () => {
@@ -46,11 +46,39 @@ const App = () => {
       ],
     },
   ];
+
+  const [cheeto, setCheeto] = useState([...course]);
+  const [text, setText] = useState("type it up");
+  const [title, setTitle] = useState("title");
+
+  const addNote = (event) => {
+    event.preventDefault();
+    // console.log("button clicked", event.target);
+
+    const noteObj = {
+      id: course.length + 1,
+      content: text,
+      date: new Date().toISOString(),
+      important: Math.random() < 0.5,
+    };
+    setCheeto(cheeto.concat(noteObj));
+    setText("");
+  };
+
+  const handleNoteChange = (event) => {
+    setText(event.target.value);
+  };
+  console.log("the mailman", cheeto);
+
   return (
     <div>
-      {course.map((courses, i) => {
+      {/* {cheeto.map((courses, i) => {
         return <Course course={courses} key={courses.id} />;
-      })}
+      })} */}
+      <form onSubmit={addNote}>
+        <input value={text} onChange={handleNoteChange} />
+        <button type="submit">save</button>
+      </form>
     </div>
   );
 };
