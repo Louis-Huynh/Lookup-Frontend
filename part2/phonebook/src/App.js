@@ -53,22 +53,17 @@ const App = () => {
     setFilterSearch(donCheet);
   };
 
-  const displayFiltered =
-    valueSearch === ""
-      ? persons.map((person) => {
-          return (
-            <li key={person.name}>
-              {person.name} {person.number}
-            </li>
-          );
-        })
-      : filterSearch.map((person) => {
-          return (
-            <li key={person.name}>
-              {person.name} {person.number}
-            </li>
-          );
-        });
+  const entriesShow = valueSearch === "" ? persons : filterSearch;
+
+  const displayFiltered = entriesShow.map((entry) => {
+    return (
+      <li key={entry.name}>
+        {entry.name} {entry.number}
+      </li>
+    );
+  });
+
+  console.log("filter search", filterSearch);
 
   return (
     <div>
