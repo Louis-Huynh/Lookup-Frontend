@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Display from "./components/Display";
+import Form from "./components/Form";
+import Search from "./components/Search";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -10,6 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterSearch, setFilterSearch] = useState([...persons]);
+  const [valueSearch, setValueSearch] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,10 +28,12 @@ const App = () => {
 
     if (foundIt) {
       setNewName("");
+      setNewNumber("");
     } else {
       setPersons(persons.concat({ name: newName, number: newNumber }));
     }
   };
+
   const handleInput = (event) => {
     setNewName(event.target.value);
   };
@@ -37,6 +43,7 @@ const App = () => {
   };
 
   const handleSearch = (event) => {
+    setValueSearch(event.target.value);
     const donCheet = persons.filter((person) => {
       return person.name
         .toLowerCase()
@@ -46,37 +53,39 @@ const App = () => {
     setFilterSearch(donCheet);
   };
 
-  const displayFiltered = filterSearch.map((person) => {
-    return (
-      <li key={person.name}>
-        {person.name} {person.number}
-      </li>
-    );
-  });
+  const displayFiltered =
+    valueSearch === ""
+      ? persons.map((person) => {
+          return (
+            <li key={person.name}>
+              {person.name} {person.number}
+            </li>
+          );
+        })
+      : filterSearch.map((person) => {
+          return (
+            <li key={person.name}>
+              {person.name} {person.number}
+            </li>
+          );
+        });
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <span>
-        Find
-        <input onChange={handleSearch} />
-      </span>
+      <Search handleSearch={handleSearch} />
+
       <h2>New entry</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <p>
-            name: <input value={newName} onChange={handleInput} />
-          </p>
-          <p>
-            number: <input value={newNumber} onChange={handleNumber} />
-          </p>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form
+        handleSubmit={handleSubmit}
+        newName={newName}
+        handleInput={handleInput}
+        newNumber={newNumber}
+        handleNumber={handleNumber}
+      />
+
       <h2>Numbers</h2>
-      <ul>{displayFiltered}</ul>
+      <Display displayFiltered={displayFiltered} />
     </div>
   );
 };
