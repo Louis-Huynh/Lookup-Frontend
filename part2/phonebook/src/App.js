@@ -1,74 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Display from "./components/Display";
 import Form from "./components/Form";
 import Search from "./components/Search";
+import axios from "axios";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
-  const [filterSearch, setFilterSearch] = useState([...persons]);
-  const [valueSearch, setValueSearch] = useState("");
+  // const [gronker, setGronker] = useState([]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let foundIt = false;
+  // const hook = () => {
+  //   console.log("doing something");
+  //   axios.get("http://localhost:3001/notes").then((response) => {
+  //     console.log("promise fulfilled");
+  //     setGronker(response.data);
+  //   });
+  // };
 
-    for (const person of persons) {
-      if (newName === person.name) {
-        foundIt = true;
-        alert(`${newName} has already been added`);
-      }
-    }
+  // useEffect(hook, []);
 
-    if (foundIt) {
-      setNewName("");
-      setNewNumber("");
-    } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
-    }
-  };
+  // console.log("render", gronker.length, "notes");
+  // const promise = axios.get("http://localhost:3001/notes");
+  // console.log("chikey breeky", promise);
 
-  const handleInput = (event) => {
-    setNewName(event.target.value);
-  };
+  // axios.get("http://localhost:3001/persons").then((response) => {
+  //   let data = response.data;
+  //   console.log("hello from the other side:", data);
+  // });
+  useEffect(() => {
+    console.log("effect");
 
-  const handleNumber = (event) => {
-    setNewNumber(event.target.value);
-  };
-
-  const handleSearch = (event) => {
-    setValueSearch(event.target.value);
-    const donCheet = persons.filter((person) => {
-      return person.name
-        .toLowerCase()
-        .includes(event.target.value.toLowerCase());
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promised fulfilled");
+      setPersons(response.data);
     });
+  }, []);
 
-    setFilterSearch(donCheet);
-  };
+  const [persons, setPersons] = useState([]);
+  // const [newName, setNewName] = useState("");
+  // const [newNumber, setNewNumber] = useState("");
+  // const [filterSearch, setFilterSearch] = useState([...persons]);
+  // const [valueSearch, setValueSearch] = useState("");
 
-  const entriesShow = valueSearch === "" ? persons : filterSearch;
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   let foundIt = false;
 
-  const displayFiltered = entriesShow.map((entry) => {
-    return (
-      <li key={entry.name}>
-        {entry.name} {entry.number}
-      </li>
-    );
-  });
+  //   for (const person of persons) {
+  //     if (newName === person.name) {
+  //       foundIt = true;
+  //       alert(`${newName} has already been added`);
+  //     }
+  //   }
 
-  console.log("filter search", filterSearch);
+  //   if (foundIt) {
+  //     setNewName("");
+  //     setNewNumber("");
+  //   } else {
+  //     setPersons(persons.concat({ name: newName, number: newNumber }));
+  //   }
+  // };
+
+  // const handleInput = (event) => {
+  //   setNewName(event.target.value);
+  // };
+
+  // const handleNumber = (event) => {
+  //   setNewNumber(event.target.value);
+  // };
+
+  // const handleSearch = (event) => {
+  //   setValueSearch(event.target.value);
+  //   const donCheet = persons.filter((person) => {
+  //     return person.name
+  //       .toLowerCase()
+  //       .includes(event.target.value.toLowerCase());
+  //   });
+
+  //   setFilterSearch(donCheet);
+  // };
+
+  // const entriesShow = valueSearch === "" ? persons : filterSearch;
+
+  // const displayFiltered = entriesShow.map((entry) => {
+  //   return (
+  //     <li key={entry.name}>
+  //       {entry.name} {entry.number}
+  //     </li>
+  //   );
+  // });
+
+  // console.log("filter search", filterSearch);
+
+  // const cheeto = () => {
+  //   persons;
+  // };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Search handleSearch={handleSearch} />
+      {/* <button onClick={() => setGronker(gronker + 1)}>clicker</button> */}
+      {/* <Search handleSearch={handleSearch} />
 
       <h2>New entry</h2>
       <Form
@@ -80,7 +110,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Display displayFiltered={displayFiltered} />
+      <Display displayFiltered={displayFiltered} /> */}
     </div>
   );
 };
