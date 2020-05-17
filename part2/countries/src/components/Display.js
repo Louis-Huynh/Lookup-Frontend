@@ -28,14 +28,30 @@ const Country = ({ country }) => {
   );
 };
 
-const Display = ({ anArray, search }) => {
+const Display = ({ anArray, selectSearch }) => {
+  //   const doSomething = (value) => {
+  //     console.log("hello");
+
+  //     return <Country country={value} />;
+  //   };
   const printArray = anArray.map((entry, i) => {
-    return <li key={i}>{entry.name}</li>;
+    return (
+      <li key={i}>
+        {entry.name}
+        <button
+          onClick={() => {
+            selectSearch(entry.name);
+            // doSomething(entry.name);
+          }}
+        >
+          Click
+        </button>
+      </li>
+    );
   });
 
   if (anArray.length === 0) {
-    console.log("kkyrios the toy soldier");
-
+    console.log("kyros the toy soldier");
     return <p>nothing to return right now</p>;
   } else if (anArray.length > 10) {
     return <p>More details are necessary! More more.</p>;
@@ -43,12 +59,7 @@ const Display = ({ anArray, search }) => {
     return (
       <div>
         <p>List of Countries</p>
-        <ul>
-          {/* {anArray.map((entry, i) => {
-          return <li key={i}>{entry.name}</li>;
-        })} */}
-          {printArray}
-        </ul>
+        <ul>{printArray}</ul>
       </div>
     );
   } else {

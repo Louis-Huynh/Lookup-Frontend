@@ -17,6 +17,12 @@ function App() {
     setSearch(event.target.value);
   };
 
+  const selectSearch = (aCountry) => {
+    console.log("more information on", aCountry);
+
+    setSearch(aCountry);
+  };
+
   const entriesShow = data.filter((entry) => {
     let lowerEntry = entry.name.toLowerCase();
     let compare = search.toLowerCase();
@@ -28,7 +34,7 @@ function App() {
   return (
     <div>
       Find countries <input onChange={handleSearch}></input>
-      <Display anArray={entriesShow} search={search} />
+      <Display anArray={entriesShow} selectSearch={selectSearch} />
     </div>
   );
 }
