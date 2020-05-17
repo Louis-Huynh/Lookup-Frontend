@@ -23,7 +23,6 @@ const App = () => {
     );
   });
 
-  //problem printing out the stuff from the json-server
   return (
     <div>
       <ul>{ahoy}</ul>
