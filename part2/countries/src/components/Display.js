@@ -1,4 +1,5 @@
 import React from "react";
+import Weather from "./Weather";
 
 const Country = ({ country }) => {
   return (
@@ -24,6 +25,7 @@ const Country = ({ country }) => {
         width="150px"
         height="100px"
       />
+      <Weather country={country} />
     </div>
   );
 };
