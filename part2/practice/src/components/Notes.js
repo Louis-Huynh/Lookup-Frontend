@@ -1,19 +1,15 @@
 import React from "react";
 
-// const Notes = ({ notes }) => {
-//   const cheeto = notes.map((x) => {
-//     return <li key={x.id}>{x.content}</li>;
-//   });
-
-//   return (
-//     <div>
-//       <ul> {cheeto}</ul>
-//     </div>
-//   );
-// };
-
-const Notes = ({ note }) => {
-  return <li>{note.content}</li>;
+const Notes = ({ note, toggleImportant }) => {
+  const label = note.important ? "mark as unimportant" : "mark as important";
+  return (
+    <li>
+      {note.content}
+      <button type="button" onClick={toggleImportant}>
+        {label}
+      </button>
+    </li>
+  );
 };
 
 export default Notes;
