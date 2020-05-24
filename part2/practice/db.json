@@ -33,7 +33,7 @@
     {
       "content": "fe",
       "date": "2020-05-22T20:53:34.874Z",
-      "important": false,
+      "important": true,
       "id": 6
     },
     {
@@ -45,7 +45,7 @@
     {
       "content": "hello",
       "date": "2020-05-22T20:54:50.269Z",
-      "important": true,
+      "important": false,
       "id": 8
     },
     {
@@ -69,7 +69,7 @@
     {
       "content": "mudalameme",
       "date": "2020-05-22T21:01:19.058Z",
-      "important": false,
+      "important": true,
       "id": 12
     },
     {
@@ -87,7 +87,7 @@
     {
       "content": "chrisbrown",
       "date": "2020-05-22T21:05:36.022Z",
-      "important": false,
+      "important": true,
       "id": 15
     },
     {
@@ -99,8 +99,14 @@
     {
       "content": "he",
       "date": "2020-05-23T20:36:47.762Z",
-      "important": false,
+      "important": true,
       "id": 17
+    },
+    {
+      "content": "jimbo",
+      "date": "2020-05-24T20:14:06.195Z",
+      "important": true,
+      "id": 18
     }
   ]
 }

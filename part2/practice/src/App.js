@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Notes from "./components/Notes";
-import axios from "axios";
+import Note from "./components/Note";
+import noteService from "./services/notes";
+// import axios from "axios";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -8,10 +9,10 @@ const App = () => {
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/notes").then((response) => {
+    noteService.getAll().then((initialNotes) => {
       console.log("promised fulfilled");
 
-      setNotes(response.data);
+      setNotes(initialNotes);
     });
   }, []);
 
@@ -24,17 +25,15 @@ const App = () => {
       important: Math.random() > 0.5,
     };
 
-    axios.post("http://localhost:3001/notes", noteObj).then((response) => {
-      console.log(response);
+    noteService.create(noteObj).then((initialNotes) => {
+      console.log(initialNotes);
 
-      setNotes(notes.concat(response.data));
+      setNotes(notes.concat(initialNotes));
       setContent("");
     });
   };
 
   const inputHandler = (event) => {
-    console.log("apple rush", event.target.value);
-
     setContent(event.target.value);
   };
 
@@ -51,19 +50,25 @@ const App = () => {
   };
 
   const toggleImportant = (id) => {
-    const url = `http://localhost:3001/notes/${id}`;
+    // const url = `http://localhost:3001/notes/${id}`;
     const note = notes.find((element) => element.id === id);
     const changedNote = { ...note, important: !note.important };
 
-    axios.put(url, changedNote).then((response) => {
-      console.log("here's the response: ", response);
+    noteService
+      .update(changedNote, id)
+      .then((initialNotes) => {
+        console.log("here's the response: ", initialNotes);
 
-      setNotes(
-        notes.map((aNote) => {
-          return aNote.id === id ? response.data : aNote;
-        })
-      );
-    });
+        setNotes(
+          notes.map((aNote) => {
+            return aNote.id === id ? initialNotes : aNote;
+          })
+        );
+      })
+      .catch((response) => {
+        alert(`'${note.content}' is currently unavailable on the db`);
+        setNotes(notes.filter((note) => note.id !== id));
+      });
   };
 
   return (
@@ -78,7 +83,7 @@ const App = () => {
       <ul>
         {notesToShow.map((note) => {
           return (
-            <Notes
+            <Note
               key={note.id}
               note={note}
               toggleImportant={() => toggleImportant(note.id)}
