@@ -19,18 +19,6 @@
       "important": false
     },
     {
-      "content": "ball in the park",
-      "date": "2020-05-22T19:36:16.032Z",
-      "important": true,
-      "id": 4
-    },
-    {
-      "content": "manifest",
-      "date": "2020-05-22T19:37:23.388Z",
-      "important": true,
-      "id": 5
-    },
-    {
       "content": "fe",
       "date": "2020-05-22T20:53:34.874Z",
       "important": true,
@@ -73,40 +61,10 @@
       "id": 12
     },
     {
-      "content": "omg",
-      "date": "2020-05-22T21:04:16.728Z",
-      "important": true,
-      "id": 13
-    },
-    {
-      "content": "geebee",
-      "date": "2020-05-22T21:05:03.122Z",
-      "important": true,
-      "id": 14
-    },
-    {
-      "content": "chrisbrown",
-      "date": "2020-05-22T21:05:36.022Z",
-      "important": true,
-      "id": 15
-    },
-    {
       "content": "chiddy bang",
       "date": "2020-05-22T21:06:03.022Z",
       "important": false,
       "id": 16
-    },
-    {
-      "content": "he",
-      "date": "2020-05-23T20:36:47.762Z",
-      "important": true,
-      "id": 17
-    },
-    {
-      "content": "jimbo",
-      "date": "2020-05-24T20:14:06.195Z",
-      "important": true,
-      "id": 18
     }
   ]
 }

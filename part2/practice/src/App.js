@@ -71,6 +71,20 @@ const App = () => {
       });
   };
 
+  const removeSomething = (id) => {
+    const note = notes.find((element) => element.id === id);
+
+    noteService
+      .deleteIt(id)
+      .then((response) => {
+        console.log("success", response);
+        setNotes(notes.filter((aNote) => aNote.id !== id));
+      })
+      .catch((response) => {
+        console.log("failed", response);
+      });
+  };
+
   return (
     <div>
       <form onSubmit={submitHandler}>
@@ -87,6 +101,7 @@ const App = () => {
               key={note.id}
               note={note}
               toggleImportant={() => toggleImportant(note.id)}
+              removeSomething={() => removeSomething(note.id)}
             />
           );
         })}

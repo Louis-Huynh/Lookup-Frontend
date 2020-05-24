@@ -7,19 +7,19 @@ import axios from "axios";
 const App = () => {
   const [gronker, setGronker] = useState([]);
 
-  const hook = () => {
-    console.log("doing something");
-    axios.get("http://localhost:3001/notes").then((response) => {
-      console.log("promise fulfilled");
-      setGronker(response.data);
-    });
-  };
+  // const hook = () => {
+  //   console.log("doing something");
+  //   axios.get("http://localhost:3001/notes").then((response) => {
+  //     console.log("promise fulfilled");
+  //     setGronker(response.data);
+  //   });
+  // };
 
-  useEffect(hook, []);
+  // useEffect(hook, []);
 
-  console.log("render", gronker.length, "notes");
-  const promise = axios.get("http://localhost:3001/notes");
-  console.log("chikey breeky", promise);
+  // console.log("render", gronker.length, "notes");
+  // const promise = axios.get("http://localhost:3001/notes");
+  // console.log("chikey breeky", promise);
 
   axios.get("http://localhost:3001/persons").then((response) => {
     let data = response.data;
@@ -90,14 +90,10 @@ const App = () => {
 
   console.log("filter search", filterSearch);
 
-  const cheeto = () => {
-    persons;
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <button onClick={() => setGronker(gronker + 1)}>clicker</button>
+      {/* <button onClick={() => setGronker(gronker + 1)}>clicker</button> */}
       <Search handleSearch={handleSearch} />
 
       <h2>New entry</h2>
