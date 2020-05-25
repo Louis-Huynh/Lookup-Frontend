@@ -12,4 +12,9 @@ const add = (anObj) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, add };
+const deleteEntry = (id) => {
+  const request = axios.delete(`${baseURL}/${id}`);
+  return request;
+};
+
+export default { getAll, add, deleteEntry };

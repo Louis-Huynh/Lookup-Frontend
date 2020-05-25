@@ -31,8 +31,6 @@ const App = () => {
     }
 
     if (foundIt) {
-      setNewName("");
-      setNewNumber("");
     } else {
       const newEntry = { name: newName, number: newNumber };
 
@@ -42,6 +40,9 @@ const App = () => {
           setPersons(persons.concat(responseData));
         })
         .catch((error) => console.log("error: ", error));
+
+      setNewName("");
+      setNewNumber("");
     }
   };
 
@@ -69,10 +70,31 @@ const App = () => {
   const displayFiltered = entriesShow.map((entry) => {
     return (
       <li key={entry.id}>
-        {entry.name} {entry.number}
+        {entry.name} {entry.number}{" "}
+        <button type="click" onClick={() => handleDelete(entry.id)}>
+          remove
+        </button>
       </li>
     );
   });
+
+  const handleDelete = (id) => {
+    const result = window.confirm(
+      "Are you sure you wish to delete your work of art?"
+    );
+    if (result) {
+      personServ.deleteEntry(id).then((response) => {
+        console.log("success: ", response);
+        setPersons(
+          persons.filter((aPerson) => {
+            return aPerson.id !== id;
+          })
+        );
+      });
+    } else {
+      console.log("no changes made");
+    }
+  };
 
   return (
     <div>
@@ -89,7 +111,6 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      {}
       <Display displayFiltered={displayFiltered} />
     </div>
   );
