@@ -5,26 +5,6 @@ import Search from "./components/Search";
 import axios from "axios";
 
 const App = () => {
-  const [gronker, setGronker] = useState([]);
-
-  // const hook = () => {
-  //   console.log("doing something");
-  //   axios.get("http://localhost:3001/notes").then((response) => {
-  //     console.log("promise fulfilled");
-  //     setGronker(response.data);
-  //   });
-  // };
-
-  // useEffect(hook, []);
-
-  // console.log("render", gronker.length, "notes");
-  // const promise = axios.get("http://localhost:3001/notes");
-  // console.log("chikey breeky", promise);
-
-  axios.get("http://localhost:3001/persons").then((response) => {
-    let data = response.data;
-    console.log("hello from the other side:", data);
-  });
   useEffect(() => {
     console.log("effect");
 
@@ -55,7 +35,15 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
+      const newEntry = { name: newName, number: newNumber };
+
+      axios
+        .post("http://localhost:3001/persons/", newEntry)
+        .then((response) => {
+          console.log("jeerpers", response);
+          setPersons(persons.concat(response.data));
+        })
+        .catch((error) => console.log("error: ", error));
     }
   };
 
@@ -82,18 +70,15 @@ const App = () => {
 
   const displayFiltered = entriesShow.map((entry) => {
     return (
-      <li key={entry.name}>
+      <li key={entry.id}>
         {entry.name} {entry.number}
       </li>
     );
   });
 
-  console.log("filter search", filterSearch);
-
   return (
     <div>
       <h2>Phonebook</h2>
-      {/* <button onClick={() => setGronker(gronker + 1)}>clicker</button> */}
       <Search handleSearch={handleSearch} />
 
       <h2>New entry</h2>
@@ -106,6 +91,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
+      {}
       <Display displayFiltered={displayFiltered} />
     </div>
   );
