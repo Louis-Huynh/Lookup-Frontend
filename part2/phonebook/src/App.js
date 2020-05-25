@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import Display from "./components/Display";
 import Form from "./components/Form";
 import Search from "./components/Search";
-import axios from "axios";
+import personServ from "./services/personServ";
 
 const App = () => {
   useEffect(() => {
     console.log("effect");
-
-    axios.get("http://localhost:3001/persons").then((response) => {
+    personServ.getAll().then((responseData) => {
       console.log("promised fulfilled");
-      setPersons(response.data);
+      setPersons(responseData);
     });
   }, []);
 
@@ -37,11 +36,10 @@ const App = () => {
     } else {
       const newEntry = { name: newName, number: newNumber };
 
-      axios
-        .post("http://localhost:3001/persons/", newEntry)
-        .then((response) => {
-          console.log("jeerpers", response);
-          setPersons(persons.concat(response.data));
+      personServ
+        .add(newEntry)
+        .then((responseData) => {
+          setPersons(persons.concat(responseData));
         })
         .catch((error) => console.log("error: ", error));
     }
