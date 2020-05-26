@@ -21,16 +21,42 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let foundIt = false;
+    let phoneUpdate = false;
+    let isDuplicate = false;
+    let confirmPhone = false;
 
     for (const person of persons) {
-      if (newName === person.name) {
-        foundIt = true;
-        alert(`${newName} has already been added`);
+      if (newName === person.name && person.number !== newNumber) {
+        phoneUpdate = true;
+        confirmPhone = window.confirm(
+          `${person.name} already exist in the phonebook. Change its phone number?`
+        );
+      } else if (newName === person.name) {
+        isDuplicate = true;
       }
     }
 
-    if (foundIt) {
+    if (phoneUpdate) {
+      if (confirmPhone) {
+        const anObj = persons.find((person) => person.name === newName);
+        const updatedObj = {
+          ...anObj,
+          number: newNumber,
+        };
+        personServ.update(anObj.id, updatedObj).then((data) => {
+          console.log("jeb", data);
+          setPersons(
+            persons.map((aPerson) => {
+              return aPerson.name === anObj.name ? updatedObj : aPerson;
+            })
+          );
+        });
+      } else {
+        console.log("No changes will be made to the phone number");
+      }
+    } else if (isDuplicate) {
+      alert(`${newName} has already been added`);
+      console.log("Duplicate entry");
     } else {
       const newEntry = { name: newName, number: newNumber };
 
