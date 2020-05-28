@@ -3,14 +3,15 @@ import Note from "./components/Note";
 import noteService from "./services/notes";
 // import axios from "axios";
 import Notification from "./components/Notification";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState("");
   const [showAll, setShowAll] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(
-    "Here is the error message LOL"
-  );
+  //notification messages
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -31,6 +32,13 @@ const App = () => {
 
     noteService.create(noteObj).then((initialNotes) => {
       console.log(initialNotes);
+      setSuccessMessage(
+        `${initialNotes.content} has been added to the server!`
+      );
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
 
       setNotes(notes.concat(initialNotes));
       setContent("");
@@ -94,13 +102,11 @@ const App = () => {
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
-        <input onChange={inputHandler} value={content} />
-        <button type="button" onClick={showAllHandler}>
-          show {showAll ? "important" : "all"}
-        </button>
-        <button type="submit">save</button>
-      </form>
+      <Notification message={successMessage} />
+      <button type="button" onClick={showAllHandler}>
+        show {showAll ? "important" : "all"}
+      </button>
+
       <ul>
         {notesToShow.map((note) => {
           return (
@@ -113,7 +119,14 @@ const App = () => {
           );
         })}
       </ul>
+      <form onSubmit={submitHandler}>
+        <input onChange={inputHandler} value={content} />
+
+        <button type="submit">save</button>
+      </form>
       <Notification message={errorMessage} />
+
+      <Footer />
     </div>
   );
 };
