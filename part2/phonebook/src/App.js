@@ -3,6 +3,7 @@ import Display from "./components/Display";
 import Form from "./components/Form";
 import Search from "./components/Search";
 import personServ from "./services/personServ";
+import "./index.css";
 
 const App = () => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterSearch, setFilterSearch] = useState([...persons]);
   const [valueSearch, setValueSearch] = useState("");
+  const [errorMessage, setErrorMessage] = useState("some error happened...");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,7 +46,6 @@ const App = () => {
           number: newNumber,
         };
         personServ.update(anObj.id, updatedObj).then((data) => {
-          console.log("jeb", data);
           setPersons(
             persons.map((aPerson) => {
               return aPerson.name === anObj.name ? updatedObj : aPerson;
@@ -95,8 +96,8 @@ const App = () => {
 
   const displayFiltered = entriesShow.map((entry) => {
     return (
-      <li key={entry.id}>
-        {entry.name} {entry.number}{" "}
+      <li className="pudding" key={entry.id}>
+        {entry.name} {entry.number}
         <button type="click" onClick={() => handleDelete(entry.id)}>
           remove
         </button>
@@ -124,6 +125,8 @@ const App = () => {
 
   return (
     <div>
+      <h1>Party people?</h1>
+
       <h2>Phonebook</h2>
       <Search handleSearch={handleSearch} />
 

@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import Note from "./components/Note";
 import noteService from "./services/notes";
 // import axios from "axios";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    "Here is the error message LOL"
+  );
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -50,7 +54,6 @@ const App = () => {
   };
 
   const toggleImportant = (id) => {
-    // const url = `http://localhost:3001/notes/${id}`;
     const note = notes.find((element) => element.id === id);
     const changedNote = { ...note, important: !note.important };
 
@@ -66,7 +69,11 @@ const App = () => {
         );
       })
       .catch((response) => {
-        alert(`'${note.content}' is currently unavailable on the db`);
+        setErrorMessage(`${note.content} is not part of the server`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+
         setNotes(notes.filter((note) => note.id !== id));
       });
   };
@@ -78,7 +85,7 @@ const App = () => {
       .deleteIt(id)
       .then((response) => {
         console.log("success", response);
-        setNotes(notes.filter((aNote) => aNote.id !== id));
+        // setNotes(notes.filter((aNote) => aNote.id !== id));
       })
       .catch((response) => {
         console.log("failed", response);
@@ -106,6 +113,7 @@ const App = () => {
           );
         })}
       </ul>
+      <Notification message={errorMessage} />
     </div>
   );
 };
