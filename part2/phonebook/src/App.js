@@ -4,6 +4,7 @@ import Form from "./components/Form";
 import Search from "./components/Search";
 import personServ from "./services/personServ";
 import "./index.css";
+import Notification from "./components/Notification";
 
 const App = () => {
   useEffect(() => {
@@ -19,7 +20,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterSearch, setFilterSearch] = useState([...persons]);
   const [valueSearch, setValueSearch] = useState("");
+  //notif
   const [errorMessage, setErrorMessage] = useState("some error happened...");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,6 +68,10 @@ const App = () => {
         .add(newEntry)
         .then((responseData) => {
           setPersons(persons.concat(responseData));
+          setSuccessMessage(`${responseData.name} added`);
+          setTimeout(() => {
+            setSuccessMessage(null);
+          }, 3000);
         })
         .catch((error) => console.log("error: ", error));
 
@@ -125,9 +132,10 @@ const App = () => {
 
   return (
     <div>
-      <h1>Party people?</h1>
-
       <h2>Phonebook</h2>
+
+      <Notification message={successMessage} />
+
       <Search handleSearch={handleSearch} />
 
       <h2>New entry</h2>
