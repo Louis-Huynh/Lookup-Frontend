@@ -21,7 +21,7 @@ const App = () => {
   const [filterSearch, setFilterSearch] = useState([...persons]);
   const [valueSearch, setValueSearch] = useState("");
   //notif
-  const [errorMessage, setErrorMessage] = useState("some error happened...");
+  const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = (event) => {
@@ -48,13 +48,21 @@ const App = () => {
           ...anObj,
           number: newNumber,
         };
-        personServ.update(anObj.id, updatedObj).then((data) => {
-          setPersons(
-            persons.map((aPerson) => {
-              return aPerson.name === anObj.name ? updatedObj : aPerson;
-            })
-          );
-        });
+        personServ
+          .update(anObj.id, updatedObj)
+          .then((data) => {
+            setPersons(
+              persons.map((aPerson) => {
+                return aPerson.name === anObj.name ? updatedObj : aPerson;
+              })
+            );
+          })
+          .catch((error) => {
+            setErrorMessage(`${anObj.name} is not part of the server!`);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 3000);
+          });
       } else {
         console.log("No changes will be made to the phone number");
       }
@@ -135,6 +143,7 @@ const App = () => {
       <h2>Phonebook</h2>
 
       <Notification message={successMessage} />
+      <Notification message={errorMessage} />
 
       <Search handleSearch={handleSearch} />
 
