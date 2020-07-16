@@ -124,9 +124,16 @@ const App = () => {
     const result = window.confirm(
       "Are you sure you wish to delete your work of art?"
     );
+
+    const entry_soon_deleted = persons.find((aPerson) => aPerson.id === id);
+
     if (result) {
       personServ.deleteEntry(id).then((response) => {
         console.log("success: ", response);
+        setSuccessMessage(`${entry_soon_deleted.name} deleted`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 3000);
         setPersons(
           persons.filter((aPerson) => {
             return aPerson.id !== id;
