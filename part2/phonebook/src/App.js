@@ -135,18 +135,21 @@ const App = () => {
     const entry_soon_deleted = persons.find((aPerson) => aPerson.id === id);
 
     if (result) {
-      personServ.deleteEntry(id).then((response) => {
-        console.log("success: ", response);
-        setSuccessMessage(`${entry_soon_deleted.name} deleted`);
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 3000);
-        setPersons(
-          persons.filter((aPerson) => {
-            return aPerson.id !== id;
-          })
-        );
-      });
+      personServ
+        .deleteEntry(id)
+        .then((response) => {
+          console.log("success: ", response);
+          setSuccessMessage(`${entry_soon_deleted.name} deleted`);
+          setTimeout(() => {
+            setSuccessMessage(null);
+          }, 3000);
+          setPersons(
+            persons.filter((aPerson) => {
+              return aPerson.id !== id;
+            })
+          );
+        })
+        .catch((err) => console.log(`Failed to delete ${entry_soon_deleted}`));
     } else {
       console.log("no changes made");
     }
