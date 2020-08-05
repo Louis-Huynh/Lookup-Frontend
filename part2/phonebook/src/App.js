@@ -81,7 +81,14 @@ const App = () => {
             setSuccessMessage(null);
           }, 3000);
         })
-        .catch((error) => console.log("error: ", error));
+        .catch((error) => {
+          const errMsg = error.response.data.error;
+          console.log("error: ", errMsg);
+          setErrorMessage(errMsg);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3000);
+        });
 
       setNewName("");
       setNewNumber("");

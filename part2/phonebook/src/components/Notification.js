@@ -5,7 +5,7 @@ const Notification = ({ message }) => {
     return <></>;
   } else if (message === null) {
     return null;
-  } else if (message.includes("not")) {
+  } else if (message.includes("failed")) {
     return <p className="fail">{message}</p>;
   } else {
     return <p className="success">{message}</p>;
