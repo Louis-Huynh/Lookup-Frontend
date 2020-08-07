@@ -121,15 +121,6 @@ const App = () => {
     { name: "mister", type: "iguana" },
   ];
 
-  let yup = [];
-  // const typeo = animals.map((animals) => {
-  //   yup = yup.concat(animals.name);
-  // });
-
-  // for (const animal of yup) {
-  //   console.log("hanimal", animal);
-  // }
-
   const amount = [
     { amount: 300 },
     { amount: 230 },
@@ -152,9 +143,6 @@ const App = () => {
     return animals.type === "iguana";
   });
 
-  // const printEm = iguanas.map((iguanas) => {
-  //   console.log("their names: ", iguanas.name);
-  // });
   return (
     <div>
       <Anecdote quote={anecdotes[selected]} selected={selected} />
