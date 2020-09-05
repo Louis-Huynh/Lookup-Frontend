@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Display from "./components/Display";
 import Form from "./components/Form";
 import Search from "./components/Search";
 import personServ from "./services/personServ";
 import "./index.css";
 import Notification from "./components/Notification";
+
+import Header from "./components/Header";
+import HomeSection from "./components/homeSection";
+import ModalContainer from "./components/ModalContainer";
+
+import Results from "./components/Results";
+
+import Button from "@material-ui/core/Button";
+
+import styled from "styled-components";
 
 const App = () => {
   useEffect(() => {
@@ -23,6 +32,15 @@ const App = () => {
   //notif
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -118,12 +136,24 @@ const App = () => {
 
   const displayFiltered = entriesShow.map((entry) => {
     return (
-      <li className="pudding" key={entry.id}>
-        {entry.name} {entry.number}
-        <button type="click" onClick={() => handleDelete(entry.id)}>
-          remove
-        </button>
-      </li>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          margin: "5px",
+          justifyContent: "space-between",
+        }}
+        key={entry.id}
+      >
+        <div style={{ borderBottom: "1px solid black", width: "100%" }}>
+          {entry.name} : {entry.number}
+        </div>
+        <div style={{ borderBottom: "1px solid black" }}>
+          <button type="click" onClick={() => handleDelete(entry.id)}>
+            remove
+          </button>
+        </div>
+      </div>
     );
   });
 
@@ -156,27 +186,50 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-
-      <Notification message={successMessage} />
-      <Notification message={errorMessage} />
-
-      <Search handleSearch={handleSearch} />
-
-      <h2>New entry</h2>
-      <Form
+    <Wrapper>
+      <Header title="Louis's phonebook" />
+      <ModalContainer
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Example Modal"
         handleSubmit={handleSubmit}
-        newName={newName}
         handleInput={handleInput}
-        newNumber={newNumber}
         handleNumber={handleNumber}
+        newName={newName}
+        newNumber={newNumber}
       />
 
-      <h2>Numbers</h2>
-      <Display displayFiltered={displayFiltered} />
-    </div>
+      <ButtonWrapper>
+        <Button onClick={openModal}>
+          <i class="fas fa-user-plus"></i> &nbsp; Add Contacts
+        </Button>
+      </ButtonWrapper>
+      <Notification message={successMessage} />
+      <Notification message={errorMessage} />
+      <MainWrapper>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <HomeSection handleSearch={handleSearch} />
+          <Results displayFiltered={displayFiltered} />
+        </div>
+      </MainWrapper>
+    </Wrapper>
   );
 };
 
 export default App;
+
+const Wrapper = styled.div`
+  margin: 0;
+`;
+
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+`;
+
+const ButtonWrapper = styled.div`
+  text-align: right;
+`;
