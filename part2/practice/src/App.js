@@ -93,7 +93,7 @@ const App = () => {
       .deleteIt(id)
       .then((response) => {
         console.log("success", response);
-        // setNotes(notes.filter((aNote) => aNote.id !== id));
+        setNotes(notes.filter((aNote) => aNote.id !== id));
       })
       .catch((response) => {
         console.log("failed", response);

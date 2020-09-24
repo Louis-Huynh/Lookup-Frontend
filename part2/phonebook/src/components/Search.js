@@ -24,7 +24,3 @@ const Wrapper = styled.div`
   justify-content: right;
   margin: 5% 8%;
 `;
-
-const Text = styled.div`
-  text-align: left;
-`;
